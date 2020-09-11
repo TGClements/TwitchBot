@@ -34,13 +34,12 @@ function onMessageHandler(target, context, msg, self) {
     client.say(target, `You rolled a ${num}`);
     console.log(`* Executed ${commandName} command`);
   } else {
-    console.log(`* Unknown command ${commandName}`);
+    console.log(`* Command ${commandName} not found`);
   }
 
   if (commandName === '!about') {
     client.say(target, 'Created by: https://www.twitch.tv/mysticbadger');
-  } else {
-    console.log(`* Unknown command ${commandName}`);
+    console.log(`* Executed ${commandName} command`);
   }
 }
 // Function called when the "dice" command is issued
