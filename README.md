@@ -50,4 +50,4 @@ _NOTE: If you don't have an OAuth token for your bot, log into your bot's accoun
 
 ## !badger
 
-- Acts as a counter for how many times the command has been used, with some fun response back from the bot
+- Acts as a counter for how many times the command has been used, with some fun response back from the bot.
