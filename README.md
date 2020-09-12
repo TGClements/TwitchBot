@@ -12,6 +12,7 @@ If you need to install any of these dependencies, follow the links and the instr
 
 ## How to run the bot on a local machine
 
+- Create a new twitch account for your bot, if you don't have one already
 - Make sure to have node.js installed
 - Clone or download the git project
 - Create a file called: `.env` in the same folder where bot.js resides
