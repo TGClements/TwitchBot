@@ -24,7 +24,7 @@ PASSWORD=BotOauthToken
 
 _NOTE: If you don't have an OAuth token for your bot, log into your bot's account and in that same browser window, visit [this link](https://twitchapps.com/tmi/)_
 
-- Edit line 10 of bot.js and specify the channel name that you would like your bot to work in
+- Edit line 11 of bot.js and specify the channel name that you would like your bot to work in
 - Open a terminal in the folder where bot.js resides
 - Run the following command in your terminal: `node bot.js`
 
@@ -47,3 +47,7 @@ _NOTE: If you don't have an OAuth token for your bot, log into your bot's accoun
 
 !roll 20
 ```
+
+## !badger
+
+- Acts as a counter for how many times the command has been used, with some fun response back from the bot
