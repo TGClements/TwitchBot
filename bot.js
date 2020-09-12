@@ -1,5 +1,6 @@
 require('dotenv').config();
 const tmi = require('tmi.js');
+const fs = require('fs');
 
 // Define configuration options
 const opts = {
@@ -34,6 +35,10 @@ function onMessageHandler(target, context, msg, self) {
       rollDice(target, command[1]);
       console.log(`* Executed ${command[0]} command`);
       break;
+    case '!badger':
+      badger(target);
+      console.log(`* Executed ${command[0]} command`);
+      break;
     case '!about':
       about(target);
       console.log(`* Executed ${command[0]} command`);
@@ -57,7 +62,6 @@ function rollDice(target, arg2) {
   }
 
   if (Number.isInteger(sides)) {
-    //const sides = arg2;
     const result = Math.floor(Math.random() * sides) + 1;
 
     client.say(target, `You rolled a ${result} on a ${sides}-sided dice!`);
@@ -67,6 +71,23 @@ function rollDice(target, arg2) {
       `Invalid command argument. (Example valid command: !dice 6)`
     );
   }
+}
+
+function badger(target) {
+  // read values from file, store, increment, then write back
+
+  let data = fs.readFileSync('data.json');
+  data = data.toString();
+  data = JSON.parse(data);
+
+  data.generalData[0].badger += 1;
+
+  fs.writeFileSync('data.json', JSON.stringify(data));
+
+  client.say(
+    target,
+    `The badger has been summoned ${data.generalData[0].badger} times BadgerFace`
+  ); // NOTE: BadgerFace is a frankerfacez emote added to the channel
 }
 
 function about(target) {
