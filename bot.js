@@ -90,6 +90,7 @@ function badger(target) {
   ); // NOTE: BadgerFace is a frankerfacez emote added to the channel
 }
 
+// DO NOT REMOVE THIS FUNCTION WITHOUT PERMISSION
 function about(target) {
   client.say(target, '/me was created by: https://www.twitch.tv/mysticbadger');
 }
