@@ -23,7 +23,7 @@ client.connect();
 
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
-  if (self) {
+  if (self || !msg.startsWith('!')) {
     return;
   } // Ignore messages from the bot
 
@@ -37,6 +37,10 @@ function onMessageHandler(target, context, msg, self) {
       break;
     case '!badger':
       badger(target);
+      console.log(`* Executed ${command[0]} command`);
+      break;
+    case '!slots':
+      slots(target, command[1], context);
       console.log(`* Executed ${command[0]} command`);
       break;
     case '!about':
@@ -88,6 +92,45 @@ function badger(target) {
     target,
     `The badger has been summoned ${data.generalData[0].badger} times BadgerFace`
   ); // NOTE: BadgerFace is a frankerfacez emote added to the channel
+}
+
+function slots(target, amount, context) {
+  if (amount == null) {
+    client.say(target, `Please specify an amount. (Ex: !slots 25)`);
+    return;
+  }
+
+  let betAmount = Number(amount);
+  var userBank = 0;
+  var foundUser = false;
+
+  let data = fs.readFileSync('data.json');
+  data = data.toString();
+  data = JSON.parse(data);
+
+  // Check if user is already in data.json
+  if (data.users.length > 0) {
+    for (var i = 0; i < data.users.length; i++) {
+      // console.log(data.users.length);
+
+      if (data.users[i].name == context['display-name']) {
+        // console.log(
+        //   `\t${context['display-name']} invoked the command. They want to bet ${betAmount}.`
+        // );
+        userBank = data.users[i].coins;
+        foundUser = true;
+      }
+    }
+  }
+
+  console.log(userBank);
+
+  // If user does not exist, initialize
+  if (!foundUser) {
+    console.log('Need to store the user.');
+  }
+
+  // Else, proceed with the slots
 }
 
 // DO NOT REMOVE THIS FUNCTION WITHOUT PERMISSION
