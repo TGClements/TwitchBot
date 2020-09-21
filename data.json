@@ -1,1 +1,4 @@
-{ "userData": [], "generalData": [{ "badger": 0 }] }
+{
+  "users": [{ "name": "MysticBadger", "coins": 1125 }],
+  "generalData": [{ "badger": 0 }]
+}
