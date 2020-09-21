@@ -24,7 +24,7 @@ PASSWORD=BotOauthToken
 CHANNELS=channel1,channel2
 ```
 
-_NOTE: If you don't have an OAuth token for your bot, log into your bot's account and in that same browser window, visit [this link](https://twitchapps.com/tmi/)_
+_NOTE: If you don't have an OAuth token for your bot, log into your bot's account and in that same browser window, visit [this link](https://twitchapps.com/tmi/). The OAuth token you want to use will be everything excluding "oath:"._
 
 - Edit line 11 of bot.js and specify the channel name that you would like your bot to work in
 - Open a terminal in the folder where bot.js resides
