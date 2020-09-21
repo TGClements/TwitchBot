@@ -43,6 +43,9 @@ function onMessageHandler(target, context, msg, self) {
       slots(target, command[1], context);
       console.log(`* Executed ${command[0]} command`);
       break;
+    case '!coins':
+      getCoins(target, context);
+      break;
     case '!about':
       about(target);
       console.log(`* Executed ${command[0]} command`);
@@ -95,8 +98,18 @@ function badger(target) {
 }
 
 function slots(target, amount, context) {
+  if (isNaN(amount) && amount != 'reset') {
+    client.say(target, `Please specify how many coins to bet. (Ex: !slots 25)`);
+    return;
+  }
+
   if (amount == null) {
-    client.say(target, `Please specify an amount. (Ex: !slots 25)`);
+    client.say(target, `Please specify how many coins to bet. (Ex: !slots 25)`);
+    return;
+  }
+
+  if (amount <= 0) {
+    client.say(target, `Please bet at least 1 coin! (Ex: !slots 25)`);
     return;
   }
 
@@ -111,26 +124,233 @@ function slots(target, amount, context) {
   // Check if user is already in data.json
   if (data.users.length > 0) {
     for (var i = 0; i < data.users.length; i++) {
-      // console.log(data.users.length);
-
       if (data.users[i].name == context['display-name']) {
-        // console.log(
-        //   `\t${context['display-name']} invoked the command. They want to bet ${betAmount}.`
-        // );
         userBank = data.users[i].coins;
         foundUser = true;
+
+        if (amount > data.users[i].coins) {
+          client.say(
+            target,
+            `You cannot bet more coins than you possess! If you are at 0 coins, please use the following command: !slots reset`
+          );
+          return;
+        }
+
+        if (amount == 'reset') {
+          data.users[i].coins = 500;
+          fs.writeFileSync('data.json', JSON.stringify(data));
+          client.say(target, `Your coins are reset to 500.`);
+          return;
+        }
       }
     }
   }
 
-  console.log(userBank);
-
   // If user does not exist, initialize
   if (!foundUser) {
-    console.log('Need to store the user.');
+    console.log(`Need to store user: ${context['display-name']}.`);
+
+    let newUser = {
+      name: context['display-name'],
+      coins: 500,
+    };
+
+    data.users[data.users.length] = newUser;
+    fs.writeFileSync('data.json', JSON.stringify(data));
   }
 
+  let emoteOptions = [
+    'DatSheffy',
+    'BibleThump',
+    'FailFish',
+    'Kappa',
+    'DansGame',
+    'DxCat',
+    'ResidentSleeper',
+    'HeyGuys',
+    'PogChamp',
+  ];
+  let slotPicks = [];
+
   // Else, proceed with the slots
+  for (var i = 0; i < 3; i++) {
+    slotPicks[i] = emoteOptions[Math.floor(Math.random() * 8)];
+  }
+
+  let didWin = false;
+  let winnings = 0;
+  let scale = 1;
+
+  if (betAmount > 10) {
+    scale = Math.floor(betAmount / 10);
+  }
+
+  // Determining Payouts
+  if (slotPicks.includes('PogChamp')) {
+    let pogCount = 0;
+
+    for (var i = 0; i < 3; i++) {
+      if (slotPicks[i] == 'PogChamp') pogCount++;
+    }
+
+    if (pogCount == 3) {
+      didWin = true;
+      winnings = 2000 * scale;
+    }
+  }
+
+  if (!didWin && slotPicks.includes('HeyGuys')) {
+    let heyCount = 0;
+
+    for (var i = 0; i < 3; i++) {
+      if (slotPicks[i] == 'HeyGuys') heyCount++;
+    }
+
+    if (heyCount == 3) {
+      didWin = true;
+      winnings = 200 * scale;
+    }
+    if (
+      (slotPicks[0] == 'HeyGuys' && slotPicks[1] == 'HeyGuys') ||
+      (slotPicks[1] == 'HeyGuys' && slotPicks[2] == 'HeyGuys')
+    ) {
+      didWin = true;
+      winnings = 100 * scale;
+    }
+  }
+
+  if (!didWin && slotPicks.includes('ResidentSleeper')) {
+    let rsCount = 0;
+
+    for (var i = 0; i < 3; i++) {
+      if (slotPicks[i] == 'ResidentSleeper') rsCount++;
+    }
+
+    if (rsCount == 3) {
+      didWin = true;
+      winnings = 100 * scale;
+    }
+    if (
+      (slotPicks[0] == 'ResidentSleeper' &&
+        slotPicks[1] == 'ResidentSleeper') ||
+      (slotPicks[1] == 'ResidentSleeper' && slotPicks[2] == 'ResidentSleeper')
+    ) {
+      didWin = true;
+      winnings = 50 * scale;
+    }
+  }
+
+  if (!didWin && slotPicks.includes('DxCat')) {
+    let catCount = 0;
+
+    for (var i = 0; i < 3; i++) {
+      if (slotPicks[i] == 'DxCat') catCount++;
+    }
+
+    if (catCount == 3) {
+      didWin = true;
+      winnings = 50 * scale;
+    }
+    if (
+      (slotPicks[0] == 'DxCat' && slotPicks[1] == 'DxCat') ||
+      (slotPicks[1] == 'DxCat' && slotPicks[2] == 'DxCat')
+    ) {
+      didWin = true;
+      winnings = 25 * scale;
+    }
+  }
+
+  if (!didWin && slotPicks.includes('DansGame')) {
+    let dgCount = 0;
+
+    for (var i = 0; i < 3; i++) {
+      if (slotPicks[i] == 'DansGame') dgCount++;
+    }
+
+    if (dgCount == 3) {
+      didWin = true;
+      winnings = 30 * scale;
+    }
+    if (dgCount == 2) {
+      didWin = true;
+      winnings = 20 * scale;
+    }
+    if (dgCount == 1) {
+      didWin = true;
+      winnings = 10 * scale;
+    }
+  }
+
+  if (!didWin && slotPicks.includes('Kappa')) {
+    let kappaCount = 0;
+
+    for (var i = 0; i < 3; i++) {
+      if (slotPicks[i] == 'Kappa') kappaCount++;
+    }
+
+    if (kappaCount == 3) {
+      didWin = true;
+      winnings = 15 * scale;
+    }
+    if (kappaCount == 2) {
+      didWin = true;
+      winnings = 10 * scale;
+    }
+    if (kappaCount == 1) {
+      didWin = true;
+      winnings = 5 * scale;
+    }
+  }
+
+  let updatedUser = {
+    name: '',
+    coins: 0,
+  };
+
+  for (var i = 0; i < data.users.length; i++) {
+    if (data.users[i].name == context['display-name']) {
+      data.users[i].coins -= betAmount;
+      data.users[i].coins += winnings;
+      fs.writeFileSync('data.json', JSON.stringify(data));
+
+      if (didWin) {
+        client.say(
+          target,
+          `Slot results | ${slotPicks[0]} | ${slotPicks[1]} | ${slotPicks[2]} | You won ${winnings} coins!`
+        );
+      } else {
+        client.say(
+          target,
+          `Slot results | ${slotPicks[0]} | ${slotPicks[1]} | ${slotPicks[2]} | You lost ${betAmount} coins!`
+        );
+      }
+    }
+  }
+}
+
+function getCoins(target, context) {
+  let data = fs.readFileSync('data.json');
+  data = data.toString();
+  data = JSON.parse(data);
+
+  // Check if user is already in data.json
+  if (data.users.length > 0) {
+    for (var i = 0; i < data.users.length; i++) {
+      if (data.users[i].name == context['display-name']) {
+        client.say(
+          target,
+          `@${data.users[i].name}, you have ${data.users[i].coins} coins.`
+        );
+        return;
+      }
+    }
+  }
+
+  client.say(
+    target,
+    `@${context['display-name']}, you have not played yet. To play, use the command: !slots`
+  );
+  return;
 }
 
 // DO NOT REMOVE THIS FUNCTION WITHOUT PERMISSION
