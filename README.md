@@ -21,6 +21,7 @@ If you need to install any of these dependencies, follow the links and the instr
 ```
 USERNAME=BotUsername
 PASSWORD=BotOauthToken
+CHANNELS=channel1,channel2
 ```
 
 _NOTE: If you don't have an OAuth token for your bot, log into your bot's account and in that same browser window, visit [this link](https://twitchapps.com/tmi/)_

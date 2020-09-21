@@ -8,7 +8,7 @@ const opts = {
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
   },
-  channels: ['mysticbadger'],
+  channels: process.env.CHANNELS.split(','),
 };
 
 // Create a client with our options
