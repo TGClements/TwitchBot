@@ -47,6 +47,9 @@ function onMessageHandler(target, context, msg, self) {
       getCoins(target, context);
       console.log(`* Executed ${command[0]} command`);
       break;
+    case '!commands':
+      commands(target);
+      break;
     case '!about':
       about(target);
       console.log(`* Executed ${command[0]} command`);
@@ -352,6 +355,19 @@ function getCoins(target, context) {
     `@${context['display-name']}, you have not played yet. To play, use the command: !slots`
   );
   return;
+}
+
+function commands(target) {
+  let commandsList = [
+    '!roll',
+    '!dice',
+    '!badger',
+    '!slots',
+    '!coins',
+    '!about',
+  ];
+
+  client.say(target, `The following commands are available: ${commandsList}`);
 }
 
 // DO NOT REMOVE THIS FUNCTION WITHOUT PERMISSION
