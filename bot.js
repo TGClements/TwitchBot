@@ -45,6 +45,7 @@ function onMessageHandler(target, context, msg, self) {
       break;
     case '!coins':
       getCoins(target, context);
+      console.log(`* Executed ${command[0]} command`);
       break;
     case '!about':
       about(target);
