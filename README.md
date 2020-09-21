@@ -24,7 +24,7 @@ PASSWORD=BotOauthToken
 CHANNELS=channel1,channel2
 ```
 
-_NOTE: If you don't have an OAuth token for your bot, log into your bot's account and in that same browser window, visit [this link](https://twitchapps.com/tmi/)_
+_NOTE: If you don't have an OAuth token for your bot, log into your bot's account and in that same browser window, visit [this link](https://twitchapps.com/tmi/). The OAuth token you want to use will be everything excluding "oath:"._
 
 - Edit line 11 of bot.js and specify the channel name that you would like your bot to work in
 - Open a terminal in the folder where bot.js resides
@@ -53,3 +53,28 @@ _NOTE: If you don't have an OAuth token for your bot, log into your bot's accoun
 ## !badger
 
 - Acts as a counter for how many times the command has been used, with some fun response back from the bot.
+
+## !slots
+
+- Bets meaningless coins on a virtual slot machine of Twitch emotes.
+- New users will always start with 500 coins.
+- You cannot bet more coins than you posses.
+- Your payout scales with how much you bet.
+- You can reset your coin balance to 500 at any time with: !slots reset.
+
+### Examples of valid commands
+
+```
+!slots 1
+!slots 500
+!slots reset
+```
+
+## !coins
+
+- Returns how many coins you possess.
+
+## !commands
+
+- Returns a list of current commands.
+- If you code your own new commands, you have to update this list manually.
